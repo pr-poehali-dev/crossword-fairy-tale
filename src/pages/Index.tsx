@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Icon from '@/components/ui/icon';
+import PrintableWorksheet from '@/components/PrintableWorksheet';
 
 interface CrosswordCell {
   row: number;
@@ -38,7 +39,12 @@ const Index = () => {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [completedClues, setCompletedClues] = useState<Set<number>>(new Set());
   const [showCongrats, setShowCongrats] = useState(false);
+  const [showPrintable, setShowPrintable] = useState(false);
   const { toast } = useToast();
+
+  if (showPrintable) {
+    return <PrintableWorksheet />;
+  }
 
   const checkAnswer = (clueId: number) => {
     const clue = clues.find(c => c.id === clueId);
@@ -82,6 +88,14 @@ const Index = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-8">
+          <Button
+            onClick={() => setShowPrintable(true)}
+            size="lg"
+            className="mb-4 bg-accent hover:bg-accent/90 text-white font-bold"
+          >
+            <Icon name="Printer" size={24} className="mr-2" />
+            Версия для печати
+          </Button>
           <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4 font-heading">
             Волшебный кроссворд 
           </h1>
